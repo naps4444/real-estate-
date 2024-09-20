@@ -47,8 +47,8 @@ const NavBar = () => {
           <div className="flex mx-auto justify-between h-16 items-center">
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <div className="w-[30px] h-[30px] flex justify-center items-center rounded-full bg-[#4BA586]">
-                <Image src="/bh.svg" width={20} height={20} alt="logo" />
+              <div className="w-[35px] h-[35px] flex justify-center items-center rounded-full bg-[#4BA586]">
+                <Image src="/bh.svg" width={25} height={25} alt="logo" />
               </div>
               <h1 className="text-[22px] font-bold">BetaHouse</h1>
             </div>

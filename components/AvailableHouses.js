@@ -132,8 +132,9 @@ export default function AvailableHouses({ location, status, bedrooms }) {
         ))}
       </div>
 
-      {/* Pagination Controls */}
+      
       <div>
+        {/* Pagination Controls */}
       
       </div>
       
