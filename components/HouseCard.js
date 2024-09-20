@@ -4,15 +4,15 @@ export default function HouseCard({ house }) {
   return (
     <div className="house-card border p-4 rounded-lg shadow-lg">
       
-      <div className="relative w-full h-48">
+      <div className="relative w-11/12 h-full">
         <Image 
           src={house.image} 
           alt={house.title} 
           layout="fill" // Automatically fills the parent container (Next.js 12 or below)
-          objectFit="cover" // Adjusts image to fill the container
+          objectFit="contain" // Adjusts image to fill the container
           className="rounded-md"
           priority // Optimizes the image load
-          sizes="100vw" // Responsible sizes
+        //   sizes="100vw" // Responsible sizes
         />
       </div>
       

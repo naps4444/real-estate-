@@ -1,6 +1,6 @@
-import AvailableHouses from "@/components/AvailableHouses";
-import PopularHousesCarousel from "@/components/PopularHousesCarousel";
-import Image from "next/image";
+
+import FindHero from "@/components/FindHero";
+
 
 
 
@@ -8,11 +8,7 @@ export default function Home() {
   return (
     <>
     <div> 
-      <p>houses</p>
-      <AvailableHouses/>
-     
-
-
+      <FindHero/>
     </div>
     </>
   );

@@ -9,7 +9,7 @@ export default async function handler(req, res) {
       title: 'Real House Luxury Villa',
       price: 3340000000,
       location: 'Victoria Island, Lagos',
-      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726679643/b1_drvjel.svg', // Changed to SVG
+      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726691636/div.project-inner_i443os.svg', 
       popular: true,
       bedrooms: 6,
       bathrooms: 3,
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       title: 'Exquisite Haven Villa',
       price: 4000000,
       location: 'Festac, Lagos',
-      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726679789/b2_cgwjiw.svg', // Changed to SVG
+      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726691602/div.project-inner_1_cwnnbp.svg', 
       popular: true,
       bedrooms: 5,
       bathrooms: 3,
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
       title: 'Luxe Palatial Villa',
       price: 5350000000,
       location: 'Gbagada, Lagos',
-      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726680270/b3_h2sbmj.png', // Changed to SVG
+      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726691731/div.project-inner_anvpuo.png', 
       popular: false,
       bedrooms: 7,
       bathrooms: 3,
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
       title: 'Harmony Luxury Villa',
       price: 4000000,
       location: 'Mushin, Lagos',
-      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726680321/b4_whrq5u.svg', // Changed to SVG
+      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726691685/div.project-inner_3_yb4svb.svg', 
       popular: false,
       bedrooms: 4,
       bathrooms: 3,
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
       title: 'Real House Luxury Villa',
       price: 350000000,
       location: 'Victoria Island, Lagos',
-      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726680369/b5_z7gguz.svg', // Changed to SVG
+      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726691649/div.project-inner_4_akt8px.svg', 
       popular: true,
       bedrooms: 6,
       bathrooms: 4,
@@ -59,7 +59,7 @@ export default async function handler(req, res) {
       title: 'Real House Luxury Villa',
       price: 4200000,
       location: 'Lekki-Ajah, Lagos',
-      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726680391/b6_bwo4zu.svg', // Changed to SVG
+      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726691687/div.project-inner_5_usoxyx.svg', 
       popular: true,
       bedrooms: 5,
       bathrooms: 3,
@@ -69,7 +69,7 @@ export default async function handler(req, res) {
       title: 'Infinite Bliss Villa',
       price: 2350000000,
       location: 'Ishiagu, Enugu',
-      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726680414/b7_y2hk70.svg', // Changed to SVG
+      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726691546/div.project-inner_6_brl4tc.svg', 
       popular: true,
       bedrooms: 5,
       bathrooms: 3,
@@ -79,7 +79,7 @@ export default async function handler(req, res) {
       title: 'Real House Luxury Villa',
       price: 3350000,
       location: 'Works Layout, Owerri',
-      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726680428/b8_cqfwth.svg', // Changed to SVG
+      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726691574/div.project-inner_7_gtti8h.svg', 
       popular: false,
       bedrooms: 8,
       bathrooms: 6,
@@ -89,7 +89,7 @@ export default async function handler(req, res) {
       title: 'Real House Luxury Villa',
       price: 600000000,
       location: 'Ikeja, Lagos',
-      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726680448/b9_vsrmqp.svg', // Changed to SVG
+      image: 'https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726691539/div.project-inner_8_zvlrxd.svg',
       popular: false,
       bedrooms: 6,
       bathrooms: 6,
