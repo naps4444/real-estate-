@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { FaBars, FaUserCircle } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
+import { useSession, signOut } from "next-auth/react"; // Import signOut
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +20,12 @@ const NavBar = () => {
   const toggleProfileDropdown = () => {
     setProfileOpen(!profileOpen);
   };
+
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
   // Handle click outside the menu and dropdown
   useEffect(() => {
@@ -73,39 +80,42 @@ const NavBar = () => {
             </div>
 
             {/* Profile Dropdown */}
-            <div className="relative" ref={profileRef}>
-              <button
-                onClick={toggleProfileDropdown}
-                className="flex items-center space-x-2 text-white"
-              >
-                <div className="flex items-center gap-2 text-white">
-                  <FaUserCircle className="h-6 w-6" />
-                  <IoIosArrowDown />
-                </div>
-              </button>
-              {profileOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-gray-500 rounded-md shadow-lg py-2 z-10">
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-white hover:text-gray-500 hover:bg-gray-100"
-                  >
-                    My Account
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-white hover:text-gray-500 hover:bg-gray-100"
-                  >
-                    Settings
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-white hover:text-gray-500 hover:bg-gray-100"
-                  >
-                    Log out
-                  </a>
-                </div>
-              )}
-            </div>
+            {session && (
+              <div className="relative" ref={profileRef}>
+                <button
+                  onClick={toggleProfileDropdown}
+                  className="flex items-center space-x-2 text-white"
+                >
+                  <div className="flex items-center gap-2 text-white">
+                    <FaUserCircle className="h-6 w-6" />
+                    {session.user.name}
+                    <IoIosArrowDown />
+                  </div>
+                </button>
+                {profileOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-500 rounded-md shadow-lg py-2 z-10">
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-white hover:text-gray-500 hover:bg-gray-100"
+                    >
+                      My Account
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-white hover:text-gray-500 hover:bg-gray-100"
+                    >
+                      Settings
+                    </a>
+                    <button
+                      onClick={() => signOut()} // Add signOut handler here
+                      className="block w-full text-left px-4 py-2 text-sm text-white hover:text-gray-500 hover:bg-gray-100"
+                    >
+                      Log out
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Hamburger Menu - Mobile only */}
             <div className="md:hidden" ref={menuRef}>
