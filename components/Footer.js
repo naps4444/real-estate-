@@ -21,20 +21,20 @@ const Footer = () => {
             </div>
 
             <div className='flex flex-col gap-3 mt-2'>
-              <div className='flex gap-4'>
+              <div className='flex gap-4 items-center'>
                 <Image src="/icon1.svg" width={10} height={10} alt='icon' />
                 <p>
                   95 Tinubu Estate, Lekki, Lagos
                 </p>
               </div>
-              <div className='flex gap-4'>
-                <Image src="/icon2.svg" width={10} height={10} alt='icon' />
+              <div className='flex gap-4 items-center'>
+                <Image src="/icon2.svg" width={10} height={10} className='' alt='icon' />
                 <p>
                   +234 675 8935 675
                 </p>
               </div>
-              <div className='flex gap-4'>
-                <Image src="/icon3.svg" width={10} height={10} alt='icon' />
+              <div className='flex gap-4 items-center'>
+                <Image src="https://res.cloudinary.com/dpm3yp0xs/image/upload/v1727194028/Vector_3_mdxsr5.png" width={10} height={10} alt='icon' className='w-3 h-3' />
                 <p>
                   support@rentbetahouse.com
                 </p>
