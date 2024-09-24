@@ -16,7 +16,7 @@ const FindHero = () => {
 
   return (
     <>
-    <div className='h-screen md:h-[700px]'>
+    <div className='h-[740px]'>
         <div className="bg-[url('/hediv.svg')] bg-cover bg-center h-full md:h-[700px] ">
 
         <NavBar/>
@@ -36,7 +36,7 @@ const FindHero = () => {
         <div className=' py-4 bg-white md:w-9/12'>
 
 
-      <div className='grid grid-cols-1 lg:grid-cols-3 bg-white'>
+      <div className='grid grid-cols-1 lg:grid-cols-3 bg-white z-20'>
         <div className='px-8 py-4 md:py-0 flex flex-col justify-center items-center lg:block'>
           <h1 className='text-center lg:text-left font-semibold'>LOCATION</h1>
           <input 
@@ -102,7 +102,7 @@ const FindHero = () => {
 
 
 
-    <div className='mt-20'>
+    <div className=' mt-5 lg:mt-20'>
         {/* Pass the search parameters to AvailableHouses */}
       <AvailableHouses 
         location={searchParams.location} 

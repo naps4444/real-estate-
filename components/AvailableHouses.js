@@ -1,5 +1,9 @@
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { PagesTopLoader } from 'nextjs-toploader/pages';
+import { useEffect, useState, useRef } from 'react';
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Instagram } from 'react-content-loader'
+
 
 
 export default function AvailableHouses({ location, status, bedrooms }) {
@@ -9,21 +13,28 @@ export default function AvailableHouses({ location, status, bedrooms }) {
   const [currency, setCurrency] = useState({});
   const [likes, setLikes] = useState({});
   const [liked, setLiked] = useState({});
-  const [currentPage, setCurrentPage] = useState(1); // Track the current page
-  const [totalPages, setTotalPages] = useState(1); // Track total pages
-  const onPageChange = (page) => setCurrentPage(page);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [sortOption, setSortOption] = useState('default');
+  const [totalHouses, setTotalHouses] = useState(0);
+
+  
+  const MyInstagramLoader = () => <Instagram />
+ 
+
+  const housesPerPage = 10;
+  const componentTopRef = useRef(null); // Reference for the top of the component
 
   useEffect(() => {
-    const fetchHouses = async (page) => {
+    const fetchHouses = async () => {
       try {
-        setLoading(true); // Start loading state
-
-        // Prepare query parameters
+        setLoading(true);
         const query = new URLSearchParams({
-          page: page,
-          location: location || '', // Send empty string if no value
+          page: currentPage,
+          location: location || '',
           status: status || '',
           bedrooms: bedrooms || 1,
+          sort: sortOption || 'default',
         });
 
         const res = await fetch(`/api/houses?${query.toString()}`);
@@ -31,9 +42,9 @@ export default function AvailableHouses({ location, status, bedrooms }) {
 
         const data = await res.json();
         setHouses(data.houses);
-        setTotalPages(data.totalPages); // Update total pages from response
+        setTotalPages(data.totalPages);
+        setTotalHouses(data.totalHouses);
 
-        // Initialize likes, currency, and liked state for each house
         const initialLikes = {};
         const initialCurrency = {};
         const initialLiked = {};
@@ -46,17 +57,20 @@ export default function AvailableHouses({ location, status, bedrooms }) {
         setCurrency(initialCurrency);
         setLiked(initialLiked);
 
-        setLoading(false); // End loading state
+        setLoading(false);
       } catch (err) {
         setError(err.message);
         setLoading(false);
       }
     };
 
-    fetchHouses(currentPage); // Fetch houses on page load and whenever the page changes
-  }, [currentPage, location, status, bedrooms]); // Trigger on search parameters
+    fetchHouses();
+  }, [currentPage, sortOption, location, status, bedrooms]);
 
-  // Handle currency toggle for individual house
+  const handleSortChange = (event) => {
+    setSortOption(event.target.value);
+  };
+
   const toggleCurrency = (houseId) => {
     setCurrency((prevCurrency) => ({
       ...prevCurrency,
@@ -64,24 +78,61 @@ export default function AvailableHouses({ location, status, bedrooms }) {
     }));
   };
 
-  // Handle liking a house and toggling the like button's state
   const likeHouse = (houseId) => {
     setLikes((prevLikes) => ({
       ...prevLikes,
       [houseId]: prevLikes[houseId] + 1,
     }));
-
     setLiked((prevLiked) => ({
       ...prevLiked,
       [houseId]: !prevLiked[houseId],
     }));
   };
 
-  if (loading) return <p>Loading houses...</p>;
+  const scrollToTop = () => {
+    componentTopRef.current.scrollIntoView({ behavior: 'smooth' }); // Scroll to top of the component
+  };
+
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+      scrollToTop(); // Scroll to top when page changes
+    }
+  };
+
+  if (loading) return <div className='mx-auto w-10/12'><Instagram /></div>;
   if (error) return <p>{error}</p>;
 
+  const start = (currentPage - 1) * housesPerPage + 1;
+  const end = Math.min(currentPage * housesPerPage, totalHouses);
+
   return (
-    <div className="available-houses">
+    <div ref={componentTopRef} className="available-houses"> {/* Reference the top */}
+      
+      <div className="flex items-center justify-between my-4 w-10/12 container mx-auto">
+        <div className='flex gap-1 md:gap-2 font-semibold items-center'>
+        <Image src="/filter.svg" width={20} height={20} alt='icon' />
+          <p className='text-xs md:text-base'>More Filter</p>
+          <p className='text-xs md:text-base'>Showing {start} to {end} of {totalHouses} results</p>
+        </div>
+
+        <div>
+          <label htmlFor="sort" className="right-0 text-xs md:text-base">Sort by:</label>
+          <select
+            id="sort"
+            value={sortOption}
+            onChange={handleSortChange}
+            className="border p-1 font-semibold w-[80px]"
+          >
+            <option value="default">Default</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="bedrooms-asc">Bedrooms: Fewest First</option>
+            <option value="bedrooms-desc">Bedrooms: Most First</option>
+          </select>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-10/12 mx-auto">
         {houses.map((house) => (
           <div key={house._id} className="house-card border">
@@ -132,12 +183,33 @@ export default function AvailableHouses({ location, status, bedrooms }) {
         ))}
       </div>
 
-      
-      <div>
-        {/* Pagination Controls */}
-      
+      <div className="flex justify-center mt-10">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1 mx-1 text-gray-500"
+        >
+          <IoIosArrowBack />
+        </button>
+
+        {[...Array(totalPages).keys()].map((page) => (
+          <button
+            key={page + 1}
+            onClick={() => handlePageChange(page + 1)}
+            className={`px-2 mx-1 ${page + 1 === currentPage ? 'bg-[#3D9970] text-white' : 'bg-white text-[#464646]'}`}
+          >
+            {page + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-3 py-1 mx-1 text-gray-500"
+        >
+          <IoIosArrowForward />
+        </button>
       </div>
-      
     </div>
   );
 }

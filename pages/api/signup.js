@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs'; // Use bcryptjs for hashing
 import jwt from 'jsonwebtoken'; // For generating JWT
 import dbConnect from '@/utils/dbConnect';
 import User from '@/models/User';
@@ -7,10 +6,10 @@ export default async function handler(req, res) {
   await dbConnect();
 
   if (req.method === 'POST') {
-    const { email, password, name, lastName } = req.body;
+    const { email, password, name } = req.body;
 
     // Validate request
-    if (!email || !password || !name || !lastName) {
+    if (!email || !password || !name) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
@@ -21,15 +20,11 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'User already exists' });
       }
 
-      // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
-
       // Create new user
       const newUser = await User.create({
         email,
-        password: hashedPassword,
+        password, // Store the raw password; it will be hashed in the pre-save hook
         name,
-        lastName,
       });
 
       // Check if JWT_SECRET is defined
@@ -39,9 +34,9 @@ export default async function handler(req, res) {
 
       // Generate JWT token
       const token = jwt.sign(
-        { userId: newUser._id, email: newUser.email },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
+        { userId: newUser._id, email: newUser.email }, // Payload
+        process.env.JWT_SECRET, // Secret key
+        { expiresIn: '1h' } // Expiration time
       );
 
       // Return success message and token

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
+import argon2 from 'argon2';
+import dbConnect from '@/utils/dbConnect';
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -21,26 +22,39 @@ const UserSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
+// Pre-save hook to hash the password
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
 
   try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    this.password = await argon2.hash(this.password); // Hash the password before saving
     next();
   } catch (err) {
     next(err);
   }
 });
 
+// Instance method to compare password
 UserSchema.methods.comparePassword = async function (candidatePassword) {
   try {
-    return await bcrypt.compare(candidatePassword, this.password);
+    return await argon2.verify(this.password, candidatePassword); // Verify the password
   } catch (err) {
-    return false;
+    throw new Error('Password comparison failed'); // Error handling for comparison failure
   }
 };
 
-export default mongoose.models.User || mongoose.model('User', UserSchema);
+// Static method to get user by email
+UserSchema.statics.getUserByEmail = async function (email) {
+  try {
+    await dbConnect();  // Ensure database connection
+    return await this.findOne({ email });  // Find user by email
+  } catch (err) {
+    throw new Error('Error finding user by email'); // Error handling for database lookup
+  }
+};
+
+const User = mongoose.models.User || mongoose.model('User', UserSchema);
+
+export default User;

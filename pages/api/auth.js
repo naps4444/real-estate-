@@ -1,6 +1,5 @@
 import dbConnect from '@/utils/dbConnect';
 import User from '@/models/User';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export default async function handler(req, res) {
@@ -15,40 +14,32 @@ export default async function handler(req, res) {
     }
 
     try {
-      // Log the login attempt for debugging
-      console.log('Login attempt:', { email });
-
       // Find the user in the database
       const user = await User.findOne({ email });
-      console.log('User found:', user);
 
       // Check if user exists
       if (!user) {
-        console.error(`Login attempt with non-existent user: ${email}`);
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
-      // Compare the password
-      const isMatch = await bcrypt.compare(password, user.password);
-      console.log('Password from input:', password);
-      console.log('Password stored in DB:', user.password); // This should be hashed
+      // Compare the password with the hashed password in the database
+      const isMatch = await user.comparePassword(password);
 
       if (!isMatch) {
-        console.error(`Invalid password for user: ${email}`);
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
-      // Generate JWT token
+      // Generate JWT token if the password matches
       const token = jwt.sign(
-        { id: user._id, email: user.email },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
+        { id: user._id, email: user.email }, // Payload
+        process.env.JWT_SECRET, // Secret key
+        { expiresIn: '1h' } // Token expiration time
       );
 
-      // Return the token
+      // Return the token to the client
       return res.status(200).json({ token });
     } catch (error) {
-      console.error('Error during login:', error); // Log the error
+      console.error('Error during login:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   } else {

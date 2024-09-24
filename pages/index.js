@@ -1,12 +1,17 @@
 // pages/index.js
 import { getSession } from "next-auth/react";
 import FindHero from "@/components/FindHero";
+import PopularHouses from "@/components/PopularHouses";
+import Footer from "@/components/Footer";
 
 export default function Home({ session }) {
   // Render the protected content if the user is signed in
   return (
     <div>
       <FindHero />
+      <PopularHouses/>
+
+      <Footer/>
     </div>
   );
 }

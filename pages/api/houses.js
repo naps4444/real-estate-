@@ -52,10 +52,13 @@ export default async function handler(req, res) {
         query.status = status; // e.g., 'for sale' or 'for rent'
       }
 
-      // Define sorting options based on the query parameter
+      // Handle sorting options
       const sortOptions = {};
-      if (sort === 'price-asc') sortOptions.price = 1; // Ascending order by price
-      if (sort === 'price-desc') sortOptions.price = -1; // Descending order by price
+      if (sort === 'price-asc') sortOptions.price = 1; // Ascending price
+      if (sort === 'price-desc') sortOptions.price = -1; // Descending price
+      if (sort === 'bedrooms-asc') sortOptions.bedrooms = 1; // Ascending bedrooms
+      if (sort === 'bedrooms-desc') sortOptions.bedrooms = -1; // Descending bedrooms
+
 
       // Fetch houses from the database with pagination, filtering, and sorting
       const houses = await House.find(query)

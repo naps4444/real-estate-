@@ -61,7 +61,7 @@ const NavBar = () => {
             </div>
 
             {/* Links - Hidden on mobile */}
-            <div className="hidden md:flex space-x-8 text-white">
+            <div className="hidden lg:flex space-x-8 text-white">
               <a href="#" className="hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400">
                 Home
               </a>
@@ -86,10 +86,10 @@ const NavBar = () => {
                   onClick={toggleProfileDropdown}
                   className="flex items-center space-x-2 text-white"
                 >
-                  <div className="flex items-center gap-2 text-white">
-                    <FaUserCircle className="h-6 w-6" />
+                  <div className="flex items-center md:gap-2 text-xs text-white">
+                    <FaUserCircle className="h-6 w-6 hidden md:block" />
                     {session.user.name}
-                    <IoIosArrowDown />
+                    <IoIosArrowDown  className="hidden md:block" />
                   </div>
                 </button>
                 {profileOpen && (
@@ -118,7 +118,7 @@ const NavBar = () => {
             )}
 
             {/* Hamburger Menu - Mobile only */}
-            <div className="md:hidden" ref={menuRef}>
+            <div className="lg:hidden" ref={menuRef}>
               <button
                 onClick={toggleMenu}
                 className="text-white"
@@ -131,7 +131,7 @@ const NavBar = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200" ref={menuRef}>
+          <div className="lg:hidden bg-white border-t border-gray-200" ref={menuRef}>
             <div className="px-2 py-3 space-y-1 sm:px-3">
               <a
                 href="#"
