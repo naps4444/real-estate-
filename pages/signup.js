@@ -60,7 +60,7 @@ export default function Signup() {
         <div className='lg:w-6/12 container'>
           <div className="lg:hidden flex justify-center mt-14 items-center gap-2">
             <div className="w-[35px] h-[35px] flex justify-center items-center rounded-full bg-[#4BA586]">
-              <Image src="https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726672241/BH_lmltwp.svg" width={25} height={25} alt="logo" />
+              <Image src="/bhp.png" width={25} height={25} alt="logo" />
             </div>
             <h1 className="text-[22px] font-bold">BetaHouse</h1>
           </div>
@@ -178,7 +178,7 @@ export default function Signup() {
         <div className="hidden lg:block w-6/12 bg-[url('/sign.svg')] bg-cover bg-center h-[920px]">
           <div className="flex items-center gap-2 mt-14 ml-10">
             <div className="w-[35px] h-[35px] flex justify-center items-center rounded-full bg-[#4BA586]">
-              <Image src="/bh.svg" width={25} height={25} alt="logo" />
+              <Image src="/bhp.png" width={25} height={25} alt="logo" />
             </div>
             <h1 className="text-[22px] text-white font-bold">BetaHouse</h1>
           </div>
