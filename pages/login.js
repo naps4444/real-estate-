@@ -145,7 +145,7 @@ export default function Login() {
 
           <button
             onClick={() => {
-              signIn("google", { redirect: true }).then(() => {
+              signIn("google", { callbackUrl: "/", redirect: true }).then(() => {
                 router.push('/'); 
               });
             }}
