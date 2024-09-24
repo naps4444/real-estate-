@@ -11,7 +11,7 @@ export default NextAuth({
     }),
   ],
   pages: {
-    signIn: '/auth/login', // Redirect to custom login page
+    signIn: '/login', // Redirect to custom login page
   },
   secret: process.env.NEXTAUTH_SECRET, // Secret for encrypting session tokens
   session: {

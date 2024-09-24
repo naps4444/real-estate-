@@ -9,7 +9,7 @@ const Footer = () => {
           <div className='md:w-5/12 flex flex-col gap-4'>
             <div className="flex items-center gap-3">
               <div className="w-[35px] h-[35px] flex justify-center items-center rounded-full bg-[#4BA586]">
-                <Image src="/bh.svg" width={25} height={25} alt="logo" />
+                <Image src="https://res.cloudinary.com/dpm3yp0xs/image/upload/v1726672241/BH_lmltwp.svg" width={25} height={25} alt="logo" />
               </div>
               <h1 className="text-[22px] font-semibold">BetaHouse</h1>
             </div>
