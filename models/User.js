@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'; 
 import argon2 from 'argon2';
 import dbConnect from '@/utils/dbConnect';
 
@@ -29,7 +29,7 @@ UserSchema.pre('save', async function (next) {
   }
 
   try {
-    this.password = await argon2.hash(this.password); // Hash the password before saving
+    this.password = await argon2.hash(this.password);
     next();
   } catch (err) {
     next(err);
@@ -39,19 +39,19 @@ UserSchema.pre('save', async function (next) {
 // Instance method to compare password
 UserSchema.methods.comparePassword = async function (candidatePassword) {
   try {
-    return await argon2.verify(this.password, candidatePassword); // Verify the password
+    return await argon2.verify(this.password, candidatePassword);
   } catch (err) {
-    throw new Error('Password comparison failed'); // Error handling for comparison failure
+    throw new Error('Password comparison failed');
   }
 };
 
 // Static method to get user by email
 UserSchema.statics.getUserByEmail = async function (email) {
   try {
-    await dbConnect();  // Ensure database connection
-    return await this.findOne({ email });  // Find user by email
+    await dbConnect();
+    return await this.findOne({ email });
   } catch (err) {
-    throw new Error('Error finding user by email'); // Error handling for database lookup
+    throw new Error('Error finding user by email');
   }
 };
 

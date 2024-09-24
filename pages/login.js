@@ -145,13 +145,16 @@ export default function Login() {
 
           <button
             onClick={() => {
-              signIn("google").then(() => {
+              signIn("google", { redirect: true }).then(() => {
                 router.push('/'); 
               });
             }}
             className='w-full flex items-center justify-center gap-2 py-3 rounded-lg mt-4 border-[1px] border-black'
             disabled={loading}
           >
+
+
+
             <Image src="/g.svg" width={20} height={20} alt='gmail icon' />
             <p>Continue with Google</p>
           </button>

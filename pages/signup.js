@@ -159,7 +159,7 @@ export default function Signup() {
             </form>
 
             <button onClick={() => {
-              signIn("google").then(() => {
+              signIn("google", { redirect: true }).then(() => {
                 // After the sign-in is complete, redirect to home
                 router.push('/');
               });
