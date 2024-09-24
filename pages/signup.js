@@ -86,7 +86,7 @@ export default function Signup() {
                     placeholder='Enter Name'
                   />
                 </div>
-                <div className='flex flex-col gap-1 lg:w-5/12'>
+                <div className='flex flex-col gap-1 mt-6 lg:mt-0 lg:w-5/12'>
                   <label className='font-semibold'>Last Name</label>
                   <input
                     type='text'
