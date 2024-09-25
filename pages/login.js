@@ -1,72 +1,50 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { signIn } from 'next-auth/react';
-import { useAuth } from "@/context/AuthContext"; // Import the AuthContext
+import { account } from '@/services/appwrite'; // Import Appwrite account service
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-  const [isChecked, setIsChecked] = useState(false); // "Remember Me" checkbox state
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
-  const { login } = useAuth(); // Get login function from AuthContext
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setMessage('');
-    setLoading(true); // Start loading
-
-    // Basic validation
-    if (!email || !password) {
-      setError('All fields are required');
-      setLoading(false); // Stop loading if validation fails
-      return;
-    }
+    setLoading(true);
 
     try {
-      // Fetching from '/api/auth/manual-login' endpoint
-      const res = await fetch('/api/auth/manual-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      // Handle the response
-      if (!res.ok) {
-        throw new Error(data.error || 'Login failed');
-      }
-
-      // Store token based on "Remember Me" checkbox state
-      if (isChecked) {
-        localStorage.setItem('token', data.token); // Persist the token in localStorage
-      } else {
-        sessionStorage.setItem('token', data.token); // Store the token in sessionStorage
-      }
-
-      // Use the login function from AuthContext
-      login({ email, token: data.token });
+      // Appwrite Login
+      await account.createEmailSession(email, password);
 
       setMessage('Login successful');
-      setLoading(false); // Stop loading after successful login
+      setLoading(false);
 
       // Redirect to homepage
       router.push('/');
     } catch (err) {
       setError(err.message || 'Login failed');
-      setLoading(false); // Stop loading on error
-      console.error('Login error:', err);
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      // Google OAuth in Appwrite
+      await account.createOAuth2Session('google', '/', '/login');
+    } catch (err) {
+      setError('Google login failed');
     }
   };
 
   return (
     <div className='flex items-center'>
+      {/* Left side: Form and content */}
       <div className='lg:w-6/12 container'>
         {/* Mobile View Logo */}
         <div className="lg:hidden flex justify-center mt-14 items-center gap-2">
@@ -130,7 +108,7 @@ export default function Login() {
               <button
                 type='submit'
                 className={`bg-[#3D9970] text-white w-full py-3 rounded-lg ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                disabled={loading} // Disable the button during loading
+                disabled={loading}
               >
                 {loading ? 'Logging in...' : 'Log In'}
               </button>
@@ -144,17 +122,10 @@ export default function Login() {
           </form>
 
           <button
-            onClick={() => {
-              signIn("google", { callbackUrl: "/", redirect: true }).then(() => {
-                router.push('/'); 
-              });
-            }}
+            onClick={handleGoogleSignIn}
             className='w-full flex items-center justify-center gap-2 py-3 rounded-lg mt-4 border-[1px] border-black'
             disabled={loading}
           >
-
-
-
             <Image src="/g.svg" width={20} height={20} alt='gmail icon' />
             <p>Continue with Google</p>
           </button>
