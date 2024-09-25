@@ -36,7 +36,8 @@ export default function Login() {
   const handleGoogleSignIn = async () => {
     try {
       // Google OAuth in Appwrite
-      await account.createOAuth2Session('google', '/', '/login');
+      await account.createOAuth2Session('google', 'https://real-estate-b6sm.onrender.com', 'https://real-estate-b6sm.onrender.com/signup');
+
     } catch (err) {
       setError('Google login failed');
     }
