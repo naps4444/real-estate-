@@ -48,11 +48,11 @@ const Footer = () => {
                 Quick Links
               </p>
               <ul className='flex flex-col gap-4 mt-2'>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Properties</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact us</a></li>
-                <li><a href="#">Blog</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>Home</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>Properties</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>About</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>Contact us</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>Blog</a></li>
               </ul>
             </div>
 
@@ -61,9 +61,9 @@ const Footer = () => {
                 More
               </p>
               <ul className='flex flex-col gap-4 mt-2'>
-                <li><a href="#">Agents</a></li>
-                <li><a href="#">Affordable Houses</a></li>
-                <li><a href="#">FAQ’s</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>Agents</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>Affordable Houses</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>FAQ’s</a></li>
               </ul>
             </div>
 
@@ -72,10 +72,10 @@ const Footer = () => {
                 Popular Search
               </p>
               <ul className='flex flex-col gap-4 mt-2'>
-                <li><a href="#">Apartment for sale</a></li>
-                <li><a href="#">Apartment for rent</a></li>
-                <li><a href="#">3 bedroom flat</a></li>
-                <li><a href="#">Bungalow</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>Apartment for sale</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>Apartment for rent</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>3 bedroom flat</a></li>
+                <li><a href="#" className='hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400'>Bungalow</a></li>
               </ul>
             </div>
           </div>
