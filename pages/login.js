@@ -5,9 +5,10 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { signIn } from "next-auth/react"; // Assuming you're using next-auth for Google login
+import { signIn } from "next-auth/react"; // Google login
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ThreeDots } from 'react-loader-spinner';
 
 const Login = () => {
   const {
@@ -20,10 +21,10 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [signinError, setSigninError] = useState("");
-
   const router = useRouter();
 
-  const onSubmit = async (data) => {
+  // Manual login function
+  const handleManualLogin = async (data) => {
     setLoading(true);
     try {
       const res = await fetch("/api/auth", {
@@ -51,11 +52,10 @@ const Login = () => {
           sameSite: "strict",
         });
 
-        // Success toast notification
         toast.success("Login successful!");
 
-        // Redirect to homepage using next/router
-        router.push("/"); // This replaces window.location.href
+        // Redirect to homepage
+        router.push("/");
         reset();
       } else {
         setLoading(false);
@@ -69,6 +69,32 @@ const Login = () => {
       toast.error("An unexpected error occurred.");
     }
   };
+
+  // Google login function
+  const handleGoogleLogin = () => {
+    signIn("google", { callbackUrl: "/" })
+      .then(() => router.push("/"))
+      .catch((error) => {
+        console.error("Google sign-in failed:", error);
+        toast.error("Google sign-in failed. Please try again.");
+      });
+  };
+
+
+  const loader = (
+    <div className='flex justify-center items-center'>
+      <ThreeDots
+  visible={true}
+  height="25"
+  width="50"
+  color="white"
+  radius="9"
+  ariaLabel="three-dots-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  />
+    </div>
+  );
 
   return (
     <div className="flex items-center">
@@ -91,7 +117,8 @@ const Login = () => {
 
           {signinError && <p className="text-red-500 mt-4">{signinError}</p>}
 
-          <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Manual Login Form */}
+          <form onSubmit={handleSubmit(handleManualLogin)}>
             {/* Email Field */}
             <div className="flex flex-col gap-1 w-full mt-6">
               <label className="font-semibold">Email</label>
@@ -113,7 +140,9 @@ const Login = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   className="border-[#DEDFE0] border-2 rounded p-3 w-full"
-                  {...register("password", { required: "Password is required" })}
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
                   placeholder="Enter your password"
                 />
                 <button
@@ -149,7 +178,7 @@ const Login = () => {
                 }`}
                 disabled={loading}
               >
-                {loading ? "Logging in..." : "Log In"}
+                {loading ? loader : "Log In"}
               </button>
 
               {/* Divider */}
@@ -163,17 +192,11 @@ const Login = () => {
 
           {/* Google Sign In */}
           <button
-            onClick={() => {
-              signIn("google", { callbackUrl: "/", redirect: true })
-                .then(() => router.push("/"))
-                .catch((error) => {
-                  console.error("Google sign-in failed:", error);
-                });
-            }}
+            onClick={handleGoogleLogin}
             className="w-full flex items-center justify-center gap-2 py-3 rounded-lg mt-4 border-[1px] border-black"
           >
             <Image src="/g.svg" width={20} height={20} alt="gmail icon" />
-            <p>Continue with Google</p>
+            <p>Continue with Google</p> 
           </button>
 
           {/* Sign Up Redirect */}
@@ -197,7 +220,17 @@ const Login = () => {
       </div>
 
       {/* ToastContainer */}
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

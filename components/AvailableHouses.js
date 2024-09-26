@@ -1,4 +1,4 @@
-
+"use client"
 import Image from 'next/image';
 import { PagesTopLoader } from 'nextjs-toploader/pages';
 import { useEffect, useState, useRef } from 'react';

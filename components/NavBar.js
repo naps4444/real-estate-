@@ -5,6 +5,7 @@ import { IoClose } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { useSession, signOut } from "next-auth/react"; // Import signOut
 import Cookies from "js-cookie";
+import { DNA } from 'react-loader-spinner';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +49,16 @@ const NavBar = () => {
   }, []);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center">
+      <DNA
+  visible={true}
+  height="80"
+  width="80"
+  ariaLabel="dna-loading"
+  wrapperStyle={{}}
+  wrapperClass="dna-wrapper"
+  />
+  </div>;
   }
 
   return (
@@ -99,8 +109,10 @@ const NavBar = () => {
                 >
                   <div className="flex items-center md:gap-2 text-xs text-white">
                     <FaUserCircle className="h-6 w-6 hidden md:block" />
-                    {session.user.name} <h1>{firstName}</h1>
-                    <p>{lastName}</p>
+                    {session.user.name}
+{/*                     
+                     <h1>{firstName}</h1>
+                    <p>{lastName}</p> */}
                     <IoIosArrowDown className="hidden md:block" />
                   </div>
                 </button>
