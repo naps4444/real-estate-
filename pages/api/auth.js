@@ -1,48 +1,64 @@
-import dbConnect from '@/utils/dbConnect';
-import User from '@/models/User';
-import jwt from 'jsonwebtoken';
+
+import User from "@/models/User";
+import dbConnect from "@/utils/dbConnect";
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken";
+
+
 
 export default async function handler(req, res) {
-  await dbConnect();
+    if(req.method === "POST"){
+        const {email, password} = req.body
 
-  if (req.method === 'POST') {
-    const { email, password } = req.body;
-
-    // Check for missing fields
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+        if(!email || !password){
+            return res.status(400).json({
+                message: "Email and Password are required"
+            })
+        }
+    
+        try {
+            console.log("Attempting to connect to MongoDB");
+            await dbConnect()
+            console.log("mongoDB connected successfully");
+            const user = await User.findOne({email});
+            if (!user) {
+                return res.status(401).json({
+                    message: "Invalid credentials"
+                })
+            }
+    
+            const isPasswordvalid = await bcrypt.compare(password, user.password)
+            if(!isPasswordvalid){
+                return res.status(401).json({
+                    message: "Invalid email or password"
+                })
+            }
+    
+    
+            //generate token
+            const token = jwt.sign({
+                userId: user._id, email: user.email
+            },
+            process.env.JWT_SECRET,
+            {expiresIn: '1h'}
+        );
+    
+            res.status(200).json({
+                message: "Login Successfully",
+                token,
+                user: {id: user._id, email: user.email, firstname: user.firstname}
+    
+            })
+        } catch (error) {
+            console.error('Error details:', error);
+            res.status(500).json({
+                message: 'Internal Server Error',
+            })
+            
+        }
     }
-
-    try {
-      // Find the user in the database
-      const user = await User.findOne({ email });
-
-      // Check if user exists
-      if (!user) {
-        return res.status(401).json({ error: 'Invalid credentials' });
-      }
-
-      // Compare the password with the hashed password in the database
-      const isMatch = await user.comparePassword(password);
-
-      if (!isMatch) {
-        return res.status(401).json({ error: 'Invalid credentials' });
-      }
-
-      // Generate JWT token if the password matches
-      const token = jwt.sign(
-        { id: user._id, email: user.email }, // Payload
-        process.env.JWT_SECRET, // Secret key
-        { expiresIn: '1h' } // Token expiration time
-      );
-
-      // Return the token to the client
-      return res.status(200).json({ token });
-    } catch (error) {
-      console.error('Error during login:', error);
-      return res.status(500).json({ error: 'Internal Server Error' });
+     else{
+        res.setHeader("Allow", ['POST']);
+        res.status(405).end(`Method ${req.method} Not Allowed`)
     }
-  } else {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
 }

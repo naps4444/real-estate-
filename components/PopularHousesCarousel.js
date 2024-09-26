@@ -6,14 +6,12 @@ import 'react-multi-carousel/lib/styles.css';
 import { HiOutlineArrowSmRight } from "react-icons/hi";
 import { HiOutlineArrowSmLeft } from "react-icons/hi";
 
-
-
 export default function PopularHouses() {
   const [houses, setHouses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [leftArrowColor, setLeftArrowColor] = useState('white'); // State for left arrow color
-  const [rightArrowColor, setRightArrowColor] = useState('white'); // State for right arrow color
+  const [leftArrowColor, setLeftArrowColor] = useState('white');
+  const [rightArrowColor, setRightArrowColor] = useState('white');
 
   useEffect(() => {
     const fetchHouses = async () => {
@@ -69,26 +67,26 @@ export default function PopularHouses() {
         customTransition="all 0.5s"
         removeArrowOnDeviceType={["tablet", "mobile"]}
         containerClass="carousel-container"
+        rtl={false ? true : undefined}
         customLeftArrow={
           <button
             className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-[#F4F4F4] hover:bg-[#3D9970] bg-opacity-50 p-2 rounded-full"
             onClick={() => {
-              setLeftArrowColor('red'); // Change color on click
-              setTimeout(() => setLeftArrowColor('white'), 300); // Reset color after 300ms
+              setLeftArrowColor('red');
+              setTimeout(() => setLeftArrowColor('white'), 300);
             }}
           >
-            <HiOutlineArrowSmLeft className='' color="black" size={24} />
+            <HiOutlineArrowSmLeft color="black" size={24} />
           </button>
         }
         customRightArrow={
           <button
             className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-[#F4F4F4] hover:bg-[#3D9970] bg-opacity-50 p-2 rounded-full"
             onClick={() => {
-              setRightArrowColor('red'); // Change color on click
-              setTimeout(() => setRightArrowColor('white'), 300); // Reset color after 300ms
+              setRightArrowColor('red');
+              setTimeout(() => setRightArrowColor('white'), 300);
             }}
           >
-            
             <HiOutlineArrowSmRight color="black" size={24} />
           </button>
         }
@@ -105,13 +103,11 @@ export default function PopularHouses() {
               />
               <div className="px-4 w-full pb-5 pt-2 absolute bg-opacity-[0.01] backdrop-blur-sm bottom-0">
                 <h3 className="text-xl font-semibold">{house.title}</h3>
-
                 <div className="mt-3">
                   <p className="text-white font-semibold">
                     {`₦${house.price.toLocaleString()}`}
                   </p>
                 </div>
-
                 <div className="flex items-center gap-1 mt-1">
                   <div className="flex">
                     <p>{house.bedrooms} Bed</p>
@@ -123,7 +119,6 @@ export default function PopularHouses() {
                     <p>{house.sqft} sq ft</p>
                   </div>
                 </div>
-
                 <div className="flex text-white items-center gap-2 mt-1">
                   <Image
                     src="/phloc.svg"

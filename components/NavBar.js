@@ -4,6 +4,7 @@ import { FaBars, FaUserCircle } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { useSession, signOut } from "next-auth/react"; // Import signOut
+import Cookies from "js-cookie";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,11 @@ const NavBar = () => {
   const menuRef = useRef(null);
   const profileRef = useRef(null);
 
+  const lastName = Cookies.get("lastName");
+  const firstName = Cookies.get("firstName")
+
+  const { data: session, status } = useSession();
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -20,12 +26,6 @@ const NavBar = () => {
   const toggleProfileDropdown = () => {
     setProfileOpen(!profileOpen);
   };
-
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
 
   // Handle click outside the menu and dropdown
   useEffect(() => {
@@ -46,6 +46,10 @@ const NavBar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -77,6 +81,13 @@ const NavBar = () => {
               <a href="#" className="hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400">
                 Contact Us
               </a>
+
+              {/* Conditionally render the login link based on session status */}
+              {!session && (
+                <a href="/login" className="hover:border-b-[1px] hover:border-white py-1 transition-all ease-in-out duration-400">
+                  Log In/Sign Up
+                </a>
+              )}
             </div>
 
             {/* Profile Dropdown */}
@@ -88,8 +99,9 @@ const NavBar = () => {
                 >
                   <div className="flex items-center md:gap-2 text-xs text-white">
                     <FaUserCircle className="h-6 w-6 hidden md:block" />
-                    {session.user.name}
-                    <IoIosArrowDown  className="hidden md:block" />
+                    {session.user.name} <h1>{firstName}</h1>
+                    <p>{lastName}</p>
+                    <IoIosArrowDown className="hidden md:block" />
                   </div>
                 </button>
                 {profileOpen && (
@@ -163,6 +175,14 @@ const NavBar = () => {
               >
                 Contact Us
               </a>
+              {!session && (
+                <a
+                  href="/login"
+                  className="block text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md"
+                >
+                  Log In/Sign Up
+                </a>
+              )}
             </div>
           </div>
         )}

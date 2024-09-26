@@ -27,6 +27,8 @@ export default NextAuth({
     async session({ session, token }) {
       session.user.id = token.id; // Attach user ID to session
       return session;
+      
+      
     },
     async redirect({ url, baseUrl }) {
       // Redirect to home page after successful authentication
